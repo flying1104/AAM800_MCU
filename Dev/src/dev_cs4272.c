@@ -1,0 +1,37 @@
+#include "types.h"
+#include "dev_delay.h"
+#include "dev_i2c.h"
+#include "dev_cs4272.h"
+
+static uchar cs4272_inittab[] = {
+    // reg mask val
+//	0x07,0xff,0x03,
+//    0x01,0xff,0x29,
+  0x01,0xff,0x01,
+	0x02,0xff,0x80,
+	0x03,0xff,0x29,
+	0x04,0xff,0x0f,
+	0x05,0xff,0x0f,
+	0x06,0xff,0x10,
+	0x02,0xff,0x00,
+  0x07,0xff,0x02,
+	0xff,0xff,0xff
+};
+
+
+void Cs4272_Init(void) {
+//	IIC_Write(CS4272_ADDR,0x07,0x03);
+//	Delay_Ms(10);
+	IIC_Module_Init(cs4272_inittab,CS4272_ADDR);
+}
+
+uchar Cs4272_Rd(uchar addr) {
+	uchar data;
+	data = IIC_Read(CS4272_ADDR, addr);  
+	return (data);
+}
+
+void Cs4272_Wr(uchar addr,uchar data) {
+	IIC_Write(CS4272_ADDR, addr, data);
+}
+
